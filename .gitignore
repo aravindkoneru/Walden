@@ -1,3 +1,5 @@
 *.swp
 journals/
 .DS_Stor
+venv/
+__pycache__/

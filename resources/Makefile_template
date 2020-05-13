@@ -1,0 +1,14 @@
+all: build_log
+
+build_log:
+	ls 2020/03/*.tex | awk '{printf "\\input{%s}\n", $$1}' > 2020/03.tex
+	mkdir -p build
+	pdflatex -output-directory=build log.tex
+	mv build/log.pdf ./
+
+target:
+	compile_months 2020/
+
+clean: 
+	rm 2020/*.tex
+	rm -rf build
