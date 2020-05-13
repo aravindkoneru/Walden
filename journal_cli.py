@@ -1,10 +1,9 @@
 #!/usr/bin/env python
-
 import sys
 import pathlib
 import datetime
 import shutil
-from journal.compiler import log_generator
+import compiler
 
 
 DEFAULT_JOURNALS_PATH = 'journals'
@@ -67,7 +66,7 @@ def init(name):
     #create folder structure
     move_resources(path)
     generate_folders(path)
-    log_generator.generate_log(path)
+    compiler.generate_log(path)
     #generate_makefile(path)
     
 
