@@ -5,7 +5,7 @@ organization, allowing the user to focus on writing.
 
 #TODO:
 ---
-- [] init a new journal
-- [] easy journal compilation via make
-- [] command to insert new entry
-- [] default new entry page
+- [x] init a new journal
+- [x] delete a journal
+- [] insert new entry
+- [] compile journal
