@@ -23,7 +23,7 @@ def show_help():
     -h: show this dialog
     -init <journal_name>?: create new journal
     -delete <journal_name>: delete an existing journal
-    -new_entry <journal_name>: new entry in specified journal
+    -today <journal_name>: new entry in specified journal
     -list: list names of journals
     '''
     print(message)
@@ -39,6 +39,7 @@ def save_journal_info(journal_info):
     meta_data = pickle.load( open(f'{DEFAULT_JOURNALS_PATH}/.journals_info', 'rb') )
     meta_data[journal_info[0]] = journal_info[1]
     pickle.dump(meta_data, open(f'{DEFAULT_JOURNALS_PATH}/.journals_info', 'wb'))
+    return journal_info[0]
 
 
 def delete_journal(journal_name):
@@ -56,12 +57,24 @@ def delete_journal(journal_name):
             path = pathlib.Path(meta_data.pop(journal_name))
             pickle.dump(meta_data, open(f'{DEFAULT_JOURNALS_PATH}/.journals_info', 'wb'))
             shutil.rmtree(path)
-            return f'"{journal_name}" deleted.'
+            return f'journal "{journal_name}" deleted.'
         else:
             return f'"{journal_name}" not deleted.'
 
     else:
         return f'No journal named "{journal_name}" exists. See journal -list for list of journals.'
+
+
+def process_today(journal_name):
+    if journal_name is None:
+        print('No journal specified. See journal -h for help.')
+    
+    meta_data = pickle.load( open(f'{DEFAULT_JOURNALS_PATH}/.journals_info', 'rb') )
+
+    if journal_name in meta_data:
+        journal.edit_today(meta_data[journal_name])
+    else:
+        print(f'No journal named "{journal_name}" exists. See journal -list for list of journals.')
 
 
 def list_journals():
@@ -76,11 +89,13 @@ def list_journals():
 
 def main(args):
     check_and_create_journals_folder()
-
+    
+    #TODO: This is bad, shouldn't be looping
     for x in range (0, len(args)):
         if args[x] == '-init':
             journal_info = journal.init(args[x+1] if x+1 < len(args) and not is_command(args[x+1]) else None)
-            save_journal_info(journal_info)
+            journal_name = save_journal_info(journal_info)
+            print(f'{journal_name} created!')
         elif args[x] == '-h':
             show_help()
         elif args[x] == '-delete':
@@ -89,8 +104,10 @@ def main(args):
         elif args[x] == '-list':
             names = list_journals()
             print(names)
+        elif args[x] == '-today':
+            res = process_today(args[x+1] if x+1 < len(args) and not is_command(args[x+1]) else None)
         else:
-            print('Invalid command. Run journal -h for help.')
+            print(f'Invalid command "{args[x]}". Run journal -h for help.')
 
 
 
