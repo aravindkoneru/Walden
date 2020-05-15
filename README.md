@@ -5,7 +5,7 @@ organization, allowing the user to focus on writing.
 
 #TODO:
 ---
-- [x] init a new journal
+- [x] create a new journal
 - [x] delete a journal
-- [] insert new entry
+- [x] insert new entry
 - [] compile journal

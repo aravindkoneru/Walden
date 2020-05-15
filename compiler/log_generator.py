@@ -18,11 +18,11 @@ MONTH_NAME = {
         }
 
 # path: path to root of journal
-def generate_log(path):
+def generate_log(path, entries):
     headers = initialize_header()
-    document = initialize_document(path)
+    document = initialize_document(entries)
 
-    with open(f"{path}/log.tex", "w") as log:
+    with open(f'{path}/log.tex', 'w') as log:
         log.write(dedent(headers))
         log.write(document)
 
@@ -76,16 +76,17 @@ def initialize_header():
 
 
 # compile years and months into latex form
-def initialize_document(path):
-    entries = parse_entries(f"{path}/years")
+def initialize_document(entries):
+    #entries = parse_entries(f'{path}/entries')
     document = []
-    document.append("\\begin{document}\n")
-    document.append("\\input{aux/title}\n\\clearpage\n")
+    document.append('\\begin{document}\n')
+    document.append('\\input{aux/title}\n\\clearpage\n')
 
     for year in entries:
         document.append(dedent(format_year(year)))
         for month in entries[year]:
             document.append(dedent(format_month(year, month)))
+        document.append('\\clearpage')
     
     document.append('\n\\end{document}\n')
     return ''.join(document)
@@ -103,26 +104,6 @@ def format_month(year, month):
     return f'''
     \\def\\month{{{MONTH_NAME[month]}}}
     \\input{{aux/newmonth}}
-    \\input{{{year}/{month}}}
+    \\clearpage
+    \\input{{entries/{year}/{month}}}
     '''
-
-
-# get months within a year
-def parse_entries(path):
-    entries = dict() 
-
-    years_folder = pathlib.Path(path)
-
-    years = [str(f)[str(f).rindex('/')+1:] for f in years_folder.iterdir() if f.is_dir()]
-    years.sort()
-
-    for year in years:
-        months_folder = pathlib.Path(f"{path}/{year}")
-        entries[year] = [str(f)[str(f).rindex('/')+1:] for f in months_folder.iterdir() if f.is_dir()]
-        entries[year].sort()
-
-    return entries
-
-
-#if __name__ == '__main__':
-#    generate_log('journals/a')

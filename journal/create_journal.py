@@ -9,9 +9,9 @@ DEFAULT_JOURNALS_PATH = 'journals'
 def generate_folders(journal_path):
     today = datetime.datetime.now()
     if today.month > 9:
-        pathlib.Path(f'{journal_path}/years/{today.year}/{today.month}').mkdir(parents=True)
+        pathlib.Path(f'{journal_path}/entries/{today.year}/{today.month}').mkdir(parents=True)
     else:
-        pathlib.Path(f'{journal_path}/years/{today.year}/0{today.month}').mkdir(parents=True)
+        pathlib.Path(f'{journal_path}/entries/{today.year}/0{today.month}').mkdir(parents=True)
 
 
 def move_resources(path):

@@ -21,10 +21,12 @@ def check_and_create_journals_folder():
 def show_help():
     message = '''
     -h: show this dialog
-    -init <journal_name>?: create new journal
-    -delete <journal_name>: delete an existing journal
-    -today <journal_name>: new entry in specified journal
-    -list: list names of journals
+    init <journal_name>?: create new journal
+    delete <journal_name>: delete an existing journal
+    today <journal_name>: new entry in specified journal
+    list: list names of journals
+    build <journal_name>: compile journal into .pdf
+    view <journal_name>: view journal as .pdf
     '''
     print(message)
 
@@ -89,26 +91,30 @@ def list_journals():
 
 def main(args):
     check_and_create_journals_folder()
-    
-    #TODO: This is bad, shouldn't be looping
-    for x in range (0, len(args)):
-        if args[x] == '-init':
-            journal_info = journal.init(args[x+1] if x+1 < len(args) and not is_command(args[x+1]) else None)
-            journal_name = save_journal_info(journal_info)
-            print(f'{journal_name} created!')
-        elif args[x] == '-h':
-            show_help()
-        elif args[x] == '-delete':
-            response = delete_journal(args[x+1] if x+1 < len(args) and not is_command(args[x+1]) else None)
-            print(response)
-        elif args[x] == '-list':
-            names = list_journals()
-            print(names)
-        elif args[x] == '-today':
-            res = process_today(args[x+1] if x+1 < len(args) and not is_command(args[x+1]) else None)
-        else:
-            print(f'Invalid command "{args[x]}". Run journal -h for help.')
 
+    command = args[0]
+    argument = args[1] if 1 < len(args) and not is_command(args[1]) else None
+
+    if command == 'init':
+        journal_info = journal.init(argument)
+        journal_name = save_journal_info(journal_info)
+        print(f'{journal_name} created!')
+    elif command == '-h':
+        show_help()
+    elif command == 'delete':
+        response = delete_journal(argument)
+        print(response)
+    elif command == 'list':
+        names = list_journals()
+        print(names)
+    elif command == 'today':
+        res = process_today(argument)
+    elif command == 'build':
+        process_build(argument)
+    elif command == 'view'
+        process_view(argument)
+    else:
+        print(f'Invalid command "{command}". Run journal -h for help.')
 
 
 if __name__=='__main__':
