@@ -1,3 +1,2 @@
 # __init__.py
-
-from .log_generator import generate_log
+from .build import compile_journal

@@ -31,20 +31,20 @@ def initialize_header():
     return r'''
     \documentclass[12pt]{article}
     \usepackage{graphicx}
-    
+
     \setlength\evensidemargin{0.0in}
     \setlength\oddsidemargin{0.0in}
     \setlength\textwidth{6.5in}
     \setlength\textheight{9.5in}
     \setlength\topmargin{-0.5in}
-    
+
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % For Footer
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \usepackage[english]{babel}
     \usepackage[utf8]{inputenc}
     \usepackage{fancyhdr}
-    
+
     \pagestyle{fancy}
     \fancyhf{}
     \renewcommand{\headrulewidth}{0pt}
@@ -53,12 +53,12 @@ def initialize_header():
     \rfoot{\thepage}
     \def\day{}
     \cfoot{\textit{\day}}
-    
+
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % For Multiple Columns within Text
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \usepackage{multicol}
-    
+
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % For Links to Websites
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -66,10 +66,10 @@ def initialize_header():
     \hypersetup{
         colorlinks=true,
         linkcolor=blue,
-        filecolor=magenta,      
+        filecolor=magenta,
         urlcolor=cyan,
     }
-    
+
     \urlstyle{same}
 
     '''
@@ -87,11 +87,11 @@ def initialize_document(entries):
         for month in entries[year]:
             document.append(dedent(format_month(year, month)))
         document.append('\\clearpage')
-    
+
     document.append('\n\\end{document}\n')
     return ''.join(document)
 
-    
+
 def format_year(year):
     return f'''
     \\def\\year{{{year}}}

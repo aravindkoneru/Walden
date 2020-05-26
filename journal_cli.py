@@ -4,12 +4,15 @@ import sys
 import pathlib
 import pickle
 import shutil
+import subprocess
 # package imports
 import compiler
 import journal
 
+from utils import constants
 
-DEFAULT_JOURNALS_PATH = 'journals'
+
+DEFAULT_JOURNALS_PATH = constants.DEFAULT_JOURNALS_PATH
 
 
 def check_and_create_journals_folder():
@@ -34,7 +37,7 @@ def show_help():
 def is_command(to_check):
     return to_check in ['-h', '-init', '-list']
 
-    
+
 # save journal name and path to .journals_info file
 # journal_info = (name, path)
 def save_journal_info(journal_info):
@@ -70,7 +73,8 @@ def delete_journal(journal_name):
 def process_today(journal_name):
     if journal_name is None:
         print('No journal specified. See journal -h for help.')
-    
+        return
+
     meta_data = pickle.load( open(f'{DEFAULT_JOURNALS_PATH}/.journals_info', 'rb') )
 
     if journal_name in meta_data:
@@ -89,11 +93,40 @@ def list_journals():
     return '\n'.join(journal_names)
 
 
+def process_build(journal_name):
+    if journal_name is None:
+        print('No journal specified. See journal -h for help.')
+        return
+
+    meta_data = pickle.load( open(f'{DEFAULT_JOURNALS_PATH}/.journals_info', 'rb') )
+
+    if journal_name in meta_data:
+        compiler.compile_journal(meta_data[journal_name])
+    else:
+        print(f'No journal named "{journal_name}" exists. See journal -list for list of journals.')
+
+
+
+def process_view(journal_name):
+    if journal_name is None:
+        print('No journal specified. See journal -h for help.')
+        return
+
+    meta_data = pickle.load( open(f'{DEFAULT_JOURNALS_PATH}/.journals_info', 'rb') )
+
+    if journal_name in meta_data:
+        if not pathlib.Path(f'{meta_data[journal_name]}/log.pdf').exists():
+            compiler.compile_journal(meta_data[journal_name])
+        subprocess.call(['open', f'{meta_data[journal_name]}/log.pdf'])
+    else:
+        print(f'No journal named "{journal_name}" exists. See journal -list for list of journals.')
+
+
 def main(args):
     check_and_create_journals_folder()
 
     command = args[0]
-    argument = args[1] if 1 < len(args) and not is_command(args[1]) else None
+    argument = args[1] if 1 < len(args) else None
 
     if command == 'init':
         journal_info = journal.init(argument)
@@ -111,7 +144,7 @@ def main(args):
         res = process_today(argument)
     elif command == 'build':
         process_build(argument)
-    elif command == 'view'
+    elif command == 'view':
         process_view(argument)
     else:
         print(f'Invalid command "{command}". Run journal -h for help.')

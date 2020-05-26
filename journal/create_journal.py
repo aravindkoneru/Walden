@@ -3,7 +3,9 @@ import pathlib
 import datetime
 import shutil
 
-DEFAULT_JOURNALS_PATH = 'journals'
+from utils import constants
+
+DEFAULT_JOURNALS_PATH = constants.DEFAULT_JOURNALS_PATH
 
 
 def generate_folders(journal_path):
@@ -16,15 +18,14 @@ def generate_folders(journal_path):
 
 def move_resources(path):
     shutil.copytree('resources/aux', f'{path}/aux')
-    shutil.copy('resources/Makefile_template', f'{path}/Makefile')
 
 
 def init(name):
     if name is None:
         name = input('Enter desired journal name: ')
-    
+
     path = f'{DEFAULT_JOURNALS_PATH}/{name}'
-    
+
     while (pathlib.Path(path).exists()):
         print('Sorry, a journal with that name already exists')
         name = input('Enter desired journal name: ')

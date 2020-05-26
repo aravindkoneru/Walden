@@ -5,8 +5,7 @@ from textwrap import dedent
 import subprocess
 import shutil
 
-import log_generator
-
+import compiler.log_generator as log_generator
 
 # compiles the journal using pdflatex
 def compile_journal(journal_path):
@@ -17,11 +16,11 @@ def compile_journal(journal_path):
     #TODO: Make this cleaner using context managing 
     current_cwd = pathlib.Path.cwd()
     os.chdir(f'{journal_path}')
-    
+
     # compile journal 
     pathlib.Path('build').mkdir(exist_ok=True)
     subprocess.call(['pdflatex', '-output-directory=build', 'log.tex'])
-    
+
     #cleanup aux files
     pathlib.Path('build/log.pdf').replace('log.pdf')
     shutil.rmtree(pathlib.Path('build'))
@@ -33,7 +32,7 @@ def compile_journal(journal_path):
 
 # get months within a year
 def parse_entries(path):
-    entries = dict() 
+    entries = dict()
 
     years_folder = pathlib.Path(path)
 
@@ -63,7 +62,7 @@ def format_month(month_path, year, month):
     formatted_entries = []
     for entry in daily_entries:
         formatted_entries.append(f'\\input{{entries/{year}/{month}/{entry.strip()}}}')
-    
+
     return '\n'.join(formatted_entries)
 
 
@@ -71,5 +70,4 @@ def format_month(month_path, year, month):
 if __name__ == '__main__':
     compile_journal('../journals/a')
 
-    
 
