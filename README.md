@@ -8,4 +8,5 @@ organization, allowing the user to focus on writing.
 - [x] create a new journal
 - [x] delete a journal
 - [x] insert new entry
-- [] compile journal
+- [x] compile journal
+- [ ] change path where journals are stored

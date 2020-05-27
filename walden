@@ -40,9 +40,6 @@ def show_help():
     print(message)
 
 
-def is_command(to_check):
-    return to_check in ['-h', '-init', '-list']
-
 
 # save journal name and path to .journals_info file
 # journal_info = (name, path)
@@ -55,7 +52,7 @@ def save_journal_info(journal_info):
 
 def delete_journal(journal_name):
     if journal_name is None:
-        return 'No journal specified. See journal -h for help.'
+        return 'No journal specified. See walden -h for help.'
 
     meta_data = pickle.load( open(f'{DEFAULT_JOURNALS_PATH}/.journals_info', 'rb') )
 
@@ -73,12 +70,12 @@ def delete_journal(journal_name):
             return f'"{journal_name}" not deleted.'
 
     else:
-        return f'No journal named "{journal_name}" exists. See journal -list for list of journals.'
+        return f'No journal named "{journal_name}" exists. See walden -list for list of journals.'
 
 
 def process_today(journal_name):
     if journal_name is None:
-        print('No journal specified. See journal -h for help.')
+        print('No journal specified. See walden -h for help.')
         return
 
     meta_data = pickle.load( open(f'{DEFAULT_JOURNALS_PATH}/.journals_info', 'rb') )
@@ -86,7 +83,7 @@ def process_today(journal_name):
     if journal_name in meta_data:
         journal.edit_today(meta_data[journal_name])
     else:
-        print(f'No journal named "{journal_name}" exists. See journal -list for list of journals.')
+        print(f'No journal named "{journal_name}" exists. See walden -list for list of journals.')
 
 
 def list_journals():
@@ -101,7 +98,7 @@ def list_journals():
 
 def process_build(journal_name):
     if journal_name is None:
-        print('No journal specified. See journal -h for help.')
+        print('No journal specified. See walden -h for help.')
         return
 
     meta_data = pickle.load( open(f'{DEFAULT_JOURNALS_PATH}/.journals_info', 'rb') )
@@ -109,13 +106,12 @@ def process_build(journal_name):
     if journal_name in meta_data:
         compiler.compile_journal(meta_data[journal_name])
     else:
-        print(f'No journal named "{journal_name}" exists. See journal -list for list of journals.')
-
+        print(f'No journal named "{journal_name}" exists. See walden -list for list of journals.')
 
 
 def process_view(journal_name):
     if journal_name is None:
-        print('No journal specified. See journal -h for help.')
+        print('No journal specified. See walden -h for help.')
         return
 
     meta_data = pickle.load( open(f'{DEFAULT_JOURNALS_PATH}/.journals_info', 'rb') )
@@ -125,7 +121,15 @@ def process_view(journal_name):
             compiler.compile_journal(meta_data[journal_name])
         subprocess.call(['open', f'{meta_data[journal_name]}/log.pdf'])
     else:
-        print(f'No journal named "{journal_name}" exists. See journal -list for list of journals.')
+        print(f'No journal named "{journal_name}" exists. See walden -list for list of journals.')
+
+#TODO: allow changing path where journals are stored
+#def process_set_path(new_journal_path):
+#    if new_journal_path is None:
+#        print(f'No new journal path specified. See walden -h for help.')
+#
+#    new_journal_path = 
+
 
 
 def main(args):
@@ -152,14 +156,15 @@ def main(args):
         process_build(argument)
     elif command == 'view':
         process_view(argument)
+    #elif command == 'set-path':
+    #    process_set_path(argument)
     else:
-        print(f'Invalid command "{command}". Run journal -h for help.')
+        print(f'Invalid command "{command}". See walden -h for help.')
 
 
 if __name__=='__main__':
     if len(sys.argv) == 1 or sys.argv[1] == '-h':
         show_help()
         sys.exit(0)
-
     else:
         main(sys.argv[1:])
