@@ -1,19 +1,25 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # library imports
 import sys
 import pathlib
 import pickle
 import shutil
 import subprocess
+import signal
+
 # package imports
 import compiler
 import journal
-
 from utils import constants
 
 
 DEFAULT_JOURNALS_PATH = constants.DEFAULT_JOURNALS_PATH
 
+def term_handler(signum, frame):
+    #TODO: maybe this can be improved?
+    exit(-1)
+
+signal.signal(signal.SIGINT, term_handler)
 
 def check_and_create_journals_folder():
     if not pathlib.Path(DEFAULT_JOURNALS_PATH).exists():
