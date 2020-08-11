@@ -18,5 +18,6 @@ setuptools.setup(
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
     ],
+    scripts = ['walden'],
     python_requires='>=3.5'
 )
