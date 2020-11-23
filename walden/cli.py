@@ -160,11 +160,3 @@ def main(args):
     #    process_set_path(argument)
     else:
         print(f'Invalid command "{command}". See walden -h for help.')
-
-
-if __name__=='__main__':
-    if len(sys.argv) == 1 or sys.argv[1] == '-h':
-        show_help()
-        sys.exit(0)
-    else:
-        main(sys.argv[1:])
