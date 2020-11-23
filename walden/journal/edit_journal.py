@@ -11,14 +11,16 @@ def edit_today(journal_path):
     entry_path = None
 
     if today.month > 9:
-        entry_path = pathlib.Path(f'{journal_path}/entries/{today.year}/{today.month}/{today.day}.tex')
+        entry_path = pathlib.Path(f"{journal_path}/entries/{today.year}/{today.month}")
     else:
-        entry_path = pathlib.Path(f'{journal_path}/entries/{today.year}/0{today.month}/{today.day}.tex')
+        entry_path = pathlib.Path(f"{journal_path}/entries/{today.year}/0{today.month}")
+
+    entry_path.mkdir(parents=True, exist_ok=True)
 
     if not entry_path.is_file():
-        create_entry(entry_path)
+        create_entry(f"{entry_path}/{today.day}.tex")
 
-    subprocess.call([EDITOR, entry_path])
+    subprocess.call([EDITOR, entry_path/f"{today.day}.tex"])
 
 
 def create_entry(entry_path):

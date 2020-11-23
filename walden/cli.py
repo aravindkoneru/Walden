@@ -8,9 +8,9 @@ import subprocess
 import signal
 
 # package imports
-import compiler
-import journal
-from utils import constants
+import walden.compiler as compiler
+import walden.journal as journal
+from walden.utils import constants
 
 
 DEFAULT_JOURNALS_PATH = constants.DEFAULT_JOURNALS_PATH

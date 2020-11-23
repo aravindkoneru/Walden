@@ -5,13 +5,13 @@ from textwrap import dedent
 import subprocess
 import shutil
 
-import compiler.log_generator as log_generator
+from .log_generator import generate_log
 
 # compiles the journal using pdflatex
 def compile_journal(journal_path):
     entries = parse_entries(f'{journal_path}/entries')
     compile_months(f'{journal_path}/entries', entries)
-    log_generator.generate_log(journal_path, entries)
+    generate_log(journal_path, entries)
 
     #TODO: Make this cleaner using context managing 
     current_cwd = pathlib.Path.cwd()
