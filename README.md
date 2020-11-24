@@ -23,6 +23,10 @@ Walden will create a `journals/` folder in your home directory. This is where al
 
 
 # TODO:
-- [ ] change path where journals are stored
-- [ ] allow journal import/export
-- [ ] plug-in system for things like weather/question of the day
+-  better support for journal names with spaces (replace " " with _ for path)
+-  better cli support using click or argparse
+-  change path where journals are stored
+-  allow journal import/export
+-  plug-in system for things like weather/question of the day
+
+
