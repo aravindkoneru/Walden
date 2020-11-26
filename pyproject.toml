@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "walden"
+version = "0.0.71"
+description = "A .tex journal system"
+authors = ["Aravind Koneru <aravind.b.koneru@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/aravindkoneru/walden"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[tool.poetry.scripts]
+walden = "walden.__main__:main"
+
+[tool.poetry.dependencies]
+python = "3.6"
+
+[tool.poetry.dev-dependencies]
+black = "^20.8b1"
+pytest = "^6.1.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+

@@ -6,15 +6,16 @@ test:
 
 .PHONY: build
 build:
-	${PYTHON} setup.py sdist bdist_wheel
+	poetry build
 
 .PHONY: publish 
 publish: build
-	${PYTHON} -m twine upload dist/*
+	poetry publish
 
 .PHONY: publish-dev
 publish-dev: build
-	${PYTHON} -m twine upload --repository testpypi dist/*
+	poetry config repositories.testpypi https://test.pypi.org/legacy/
+	poetry publish -r testpypi
 
 .PHONY: clean 
 clean:
