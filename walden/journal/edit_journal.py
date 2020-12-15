@@ -1,23 +1,19 @@
 #!/usr/bin/env python3
 import pathlib
-import datetime
+from datetime import datetime
 import subprocess
 import os
 
 EDITOR = os.environ.get('EDITOR', 'vim')
 
 def edit_today(journal_path):
-    today = datetime.datetime.now()
-    entry_path = None
+    today = datetime.now()
+    today = datetime(2020, 1, 1)
 
-    if today.month > 9:
-        entry_path = pathlib.Path(f"{journal_path}/entries/{today.year}/{today.month}")
-    else:
-        entry_path = pathlib.Path(f"{journal_path}/entries/{today.year}/0{today.month}")
-
+    entry_path = pathlib.Path(f"{journal_path}/entries/{today.year}/{today.strftime('%m')}")
     entry_path.mkdir(parents=True, exist_ok=True)
-    entry_path = entry_path / f"{today.day}.tex"
 
+    entry_path = entry_path / f"{today.strftime('%d')}.tex"
     if not entry_path.is_file():
         create_entry(entry_path)
 
@@ -26,7 +22,7 @@ def edit_today(journal_path):
 
 def create_entry(entry_path):
     entry = []
-    today = datetime.date.today()
+    today = datetime.now()
 
     print('Creating today\'s journal entry...')
 
