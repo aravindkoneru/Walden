@@ -8,7 +8,6 @@ EDITOR = os.environ.get('EDITOR', 'vim')
 
 def edit_today(journal_path):
     today = datetime.now()
-    today = datetime(2020, 1, 1)
 
     entry_path = pathlib.Path(f"{journal_path}/entries/{today.year}/{today.strftime('%m')}")
     entry_path.mkdir(parents=True, exist_ok=True)

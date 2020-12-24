@@ -5,7 +5,7 @@ with open("README.md", "r") as readme:
 
 setuptools.setup(
     name="walden",
-    version="0.0.71",
+    version="0.0.73",
     author="Aravind Koneru",
     author_email="aravind.b.koneru@gmail.com",
     description="A .tex journaling system",
