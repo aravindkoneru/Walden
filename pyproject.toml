@@ -16,7 +16,8 @@ classifiers = [
 walden = "walden.__main__:main"
 
 [tool.poetry.dependencies]
-python = "3.6"
+python = ">=3.8"
+
 
 [tool.poetry.dev-dependencies]
 black = "^20.8b1"
