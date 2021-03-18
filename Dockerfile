@@ -1,7 +1,7 @@
 FROM python:3.9-slim as develop
 
-COPY . /walden
-WORKDIR /walden
+COPY . /workarea
+WORKDIR /workarea
 
 RUN python3.9 -m pip install --upgrade pip && \
     python3.9 -m pip install poetry \
