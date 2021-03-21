@@ -3,13 +3,13 @@ from pathlib import Path
 from datetime import datetime
 import shutil
 
-from walden.utils import DEFAULT_JOURNAL_PATH, sanitize_journal_name
+from walden.utils import sanitize_journal_name
 
 class BaseJournal(metaclass=ABCMeta):
-    def __init__(self, journal_name):
+    def __init__(self, journal_name, journal_base_path):
         self._journal_name = journal_name
         self._sanitized_name = sanitize_journal_name(journal_name)
-        self._journal_path = Path(f"{DEFAULT_JOURNAL_PATH}/{self._sanitized_name}")
+        self._journal_path = Path(f"{journal_base_path}/{self._sanitized_name}")
 
     @property
     @abstractmethod
@@ -27,10 +27,11 @@ class BaseJournal(metaclass=ABCMeta):
         create the necessary folder structure and latex templates necessary
         for the journal
         """
-        # create the top level folder for the journal
-        self._journal_path.mkdir(parents=True)
 
         try:
+            # create the top level folder for the journal
+            self._journal_path.mkdir(parents=True)
+
             # create the folders to hold the entries
             today = datetime.now()
             year = today.year
@@ -49,9 +50,19 @@ class BaseJournal(metaclass=ABCMeta):
             return True
         except Exception as e:
             #print(f"Caught: {e}")
+            self.delete()
+            return False
+
+    def delete(self):
+        if self.exists():
             shutil.rmtree(self._journal_path)
 
-            return False
+    def get_metadata(self):
+        return {
+            "type": self.JOURNAL_TYPE,
+            "name": self._journal_name,
+            "path": str(self._journal_path)
+        }
 
 
     @abstractmethod

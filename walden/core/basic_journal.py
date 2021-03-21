@@ -3,14 +3,21 @@ from .base_journal import BaseJournal
 class BasicJournal(BaseJournal):
     JOURNAL_TYPE = "BasicJournal"
 
-    def __init__(self, journal_name):
-        super().__init__(journal_name)
+    def __init__(self, journal_name, journal_base_path):
+        super().__init__(journal_name, journal_base_path)
 
     def new_entry_page(self):
         """
         return the latex string to be used for new daily entries to the journal
         """
-        raise NotImplementedError("new_entry_page() not implemented")
+        entry = []
+        today = datetime.now()
+
+        entry.append(today.strftime("\\def\\day{\\textit{%B %d, %Y}}"))
+        entry.append(today.strftime("\\def\\weekday{\\textit{%A}}"))
+        entry.append("\\subsection*{\\weekday, \\day}\n\n")
+
+        return "\n".join(entry)
 
     def _get_tex_pages(self):
         """
