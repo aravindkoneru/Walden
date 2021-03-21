@@ -43,7 +43,7 @@ def generate_resources(path, journal_name="journal"):
 
     for file in files:
         with open(f"{path}/aux/{file[0]}", "w") as new_aux:
-            new_aux.write(gen_new_aux_page(file[1], "title" in file[1]))
+            new_aux.write(gen_new_aux_page(file[1], "title" in file[0]))
 
 
 def init(name):

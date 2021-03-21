@@ -1,4 +1,9 @@
-from walden.utils import sanitize_journal_name
+from walden.utils import (
+    sanitize_journal_name,
+    print_success,
+    print_error,
+    print_warning
+)
 from .basic_journal import BasicJournal
 
 JOURNAL_TYPES = [BasicJournal]
@@ -8,6 +13,9 @@ def create_journal(journal_name, journal_type=BasicJournal.JOURNAL_TYPE):
     journal = JOURNAL_MAP[journal_type](journal_name)
 
     if not journal.exists():
-        journal.create()
+        if journal.create():
+            print_success(f"{journal_name} successfully created!")
+        else:
+            print_error(f"Something went wrong, {journal_name} could not be created.")
     else:
-        return "Sorry journal already exists"
+        print_warning("Sorry journal already exists")
