@@ -4,12 +4,15 @@ from datetime import datetime
 import subprocess
 import os
 
-EDITOR = os.environ.get('EDITOR', 'vim')
+EDITOR = os.environ.get("EDITOR", "vim")
+
 
 def edit_today(journal_path):
     today = datetime.now()
 
-    entry_path = pathlib.Path(f"{journal_path}/entries/{today.year}/{today.strftime('%m')}")
+    entry_path = pathlib.Path(
+        f"{journal_path}/entries/{today.year}/{today.strftime('%m')}"
+    )
     entry_path.mkdir(parents=True, exist_ok=True)
 
     entry_path = entry_path / f"{today.strftime('%d')}.tex"
@@ -23,15 +26,15 @@ def create_entry(entry_path):
     entry = []
     today = datetime.now()
 
-    print('Creating today\'s journal entry...')
+    print("Creating today's journal entry...")
 
     entry.append(today.strftime("\\def\\day{\\textit{%B %d, %Y}}"))
     entry.append(today.strftime("\\def\\weekday{\\textit{%A}}"))
     entry.append("\\subsection*{\\weekday, \\day}\n\n")
 
     with open(entry_path, "w") as new_entry:
-        new_entry.write('\n'.join(entry))
+        new_entry.write("\n".join(entry))
 
 
-if __name__ == '__main__':
-    edit_today('journals/a')
+if __name__ == "__main__":
+    edit_today("journals/a")

@@ -5,8 +5,9 @@ import shutil
 
 from walden.utils import sanitize_journal_name
 
+
 class BaseJournal(metaclass=ABCMeta):
-    def __init__(self, journal_name, journal_base_path):
+    def __init__(self, journal_name: str, journal_base_path: str):
         self._journal_name = journal_name
         self._sanitized_name = sanitize_journal_name(journal_name)
         self._journal_path = Path(f"{journal_base_path}/{self._sanitized_name}")
@@ -37,7 +38,9 @@ class BaseJournal(metaclass=ABCMeta):
             year = today.year
             month = today.strftime("%m")
             day = today.strftime("%d")
-            Path(f"{self._journal_path}/entries/{year}/{month}/{day}").mkdir(parents=True)
+            Path(f"{self._journal_path}/entries/{year}/{month}/{day}").mkdir(
+                parents=True
+            )
 
             # add .tex resources for the journal
             Path(f"{self._journal_path}/aux").mkdir()
@@ -49,7 +52,7 @@ class BaseJournal(metaclass=ABCMeta):
 
             return True
         except Exception as e:
-            #print(f"Caught: {e}")
+            # print(f"Caught: {e}")
             self.delete()
             return False
 
@@ -61,9 +64,8 @@ class BaseJournal(metaclass=ABCMeta):
         return {
             "type": self.JOURNAL_TYPE,
             "name": self._journal_name,
-            "path": str(self._journal_path)
+            "path": str(self._journal_path),
         }
-
 
     @abstractmethod
     def new_entry_page(self):

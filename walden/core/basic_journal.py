@@ -1,5 +1,6 @@
 from .base_journal import BaseJournal
 
+
 class BasicJournal(BaseJournal):
     JOURNAL_TYPE = "BasicJournal"
 
@@ -24,11 +25,15 @@ class BasicJournal(BaseJournal):
         Should return all the latex files that need to be added to aux/ for the journal.
         The expected return format is a dictionary: {filename: latex_str, ....}
         """
-        files = [("newmonth.tex", "\\month"),
-                 ("newyear.tex", "\\year"),
-                 ("title.tex", self._journal_name)]
+        files = [
+            ("newmonth.tex", "\\month"),
+            ("newyear.tex", "\\year"),
+            ("title.tex", self._journal_name),
+        ]
 
-        return {file[0]: self._gen_aux_page(file[1], "title" in file[0]) for file in files}
+        return {
+            file[0]: self._gen_aux_page(file[1], "title" in file[0]) for file in files
+        }
 
     def build(self):
         """

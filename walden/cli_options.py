@@ -6,7 +6,7 @@ create = click.option(
     "create_journal",
     type=str,
     help="create a new journal",
-    metavar="<journal_name>"
+    metavar="<journal_name>",
 )
 
 view = click.option(
@@ -15,7 +15,7 @@ view = click.option(
     "view_journal",
     type=str,
     help="view an existing journal",
-    metavar="<journal_name>"
+    metavar="<journal_name>",
 )
 
 delete = click.option(
@@ -24,15 +24,11 @@ delete = click.option(
     "delete_journal",
     type=str,
     help="delete an existing journal",
-    metavar="<journal_name>"
+    metavar="<journal_name>",
 )
 
 show_list = click.option(
-    "-l",
-    "--list",
-    "list_journals",
-    help="show a list of all journal names",
-    metavar=""
+    "-l", "--list", "list_journals", help="show a list of all journal names", metavar=""
 )
 
 today = click.option(
@@ -41,7 +37,7 @@ today = click.option(
     "edit_journal",
     type=str,
     help="edit today's entry in the specified journal",
-    metavar="<journal_name>"
+    metavar="<journal_name>",
 )
 
 build = click.option(
@@ -50,5 +46,5 @@ build = click.option(
     "build_journal",
     type=str,
     help="build the specified journal",
-    metavar="<journal_name>"
+    metavar="<journal_name>",
 )

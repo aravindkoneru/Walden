@@ -1,7 +1,9 @@
 import sys
 
+
 def main(args=None):
     from .cli import cli as main
+
     main(sys.argv[1:])
 
 

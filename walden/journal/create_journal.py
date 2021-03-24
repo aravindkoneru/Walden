@@ -11,9 +11,13 @@ DEFAULT_JOURNALS_PATH = constants.DEFAULT_JOURNALS_PATH
 def generate_folders(journal_path):
     today = datetime.datetime.now()
     if today.month > 9:
-        pathlib.Path(f'{journal_path}/entries/{today.year}/{today.month}').mkdir(parents=True)
+        pathlib.Path(f"{journal_path}/entries/{today.year}/{today.month}").mkdir(
+            parents=True
+        )
     else:
-        pathlib.Path(f'{journal_path}/entries/{today.year}/0{today.month}').mkdir(parents=True)
+        pathlib.Path(f"{journal_path}/entries/{today.year}/0{today.month}").mkdir(
+            parents=True
+        )
 
 
 def gen_new_aux_page(label, is_title=False):
@@ -33,11 +37,13 @@ def gen_new_aux_page(label, is_title=False):
     return "\n".join(page)
 
 
-#TODO: maybe journal name can be passed in now?
+# TODO: maybe journal name can be passed in now?
 def generate_resources(path, journal_name="journal"):
-    files = [("newmonth.tex", "\\month"),
-             ("newyear.tex", "\\year"),
-             ("title.tex", journal_name)]
+    files = [
+        ("newmonth.tex", "\\month"),
+        ("newyear.tex", "\\year"),
+        ("title.tex", journal_name),
+    ]
 
     Path(f"{path}/aux").mkdir()
 
@@ -48,18 +54,18 @@ def generate_resources(path, journal_name="journal"):
 
 def init(name):
     if name is None:
-        name = input('Enter desired journal name: ')
+        name = input("Enter desired journal name: ")
 
-    path = f'{DEFAULT_JOURNALS_PATH}/{name}'
+    path = f"{DEFAULT_JOURNALS_PATH}/{name}"
 
-    while (pathlib.Path(path).exists()):
-        print('Sorry, a journal with that name already exists')
-        name = input('Enter desired journal name: ')
-        path = f'{DEFAULT_JOURNALS_PATH}/{name}'
+    while pathlib.Path(path).exists():
+        print("Sorry, a journal with that name already exists")
+        name = input("Enter desired journal name: ")
+        path = f"{DEFAULT_JOURNALS_PATH}/{name}"
 
     pathlib.Path(path).mkdir()
 
-    #create folder structure
+    # create folder structure
     generate_resources(path, name)
     generate_folders(path)
 
