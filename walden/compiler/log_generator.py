@@ -44,6 +44,7 @@ def initialize_header():
     \usepackage[english]{babel}
     \usepackage[utf8]{inputenc}
     \usepackage{fancyhdr}
+    \usepackage{parskip}
 
     \pagestyle{fancy}
     \fancyhf{}
@@ -95,15 +96,17 @@ def initialize_document(entries):
 def format_year(year):
     return f'''
     \\def\\year{{{year}}}
+    \\newpage
     \\input{{aux/newyear}}
-    \\clearpage
+    \\newpage
     '''
 
 
 def format_month(year, month):
     return f'''
     \\def\\month{{{MONTH_NAME[month]}}}
+    \\newpage
     \\input{{aux/newmonth}}
-    \\clearpage
+    \\newpage
     \\input{{entries/{year}/{month}}}
     '''
