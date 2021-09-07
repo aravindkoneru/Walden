@@ -9,6 +9,7 @@ import toml
 from ._create import create_journal
 from ._data_classes import JournalConfiguration, WaldenConfiguration
 from ._delete import delete_journal
+from ._edit import edit_journal
 from ._errors import WaldenException
 from ._list import list_journals
 from ._utils import print_error
@@ -27,7 +28,11 @@ FLAGS = [
     ("list", "list all journals managed by walden"),
 ]
 
-ARGUMENT_MAPPING = {"create": create_journal, "delete": delete_journal}
+ARGUMENT_MAPPING = {
+    "create": create_journal,
+    "delete": delete_journal,
+    "today": edit_journal,
+}
 FLAG_MAPPING = {"list": list_journals}
 
 

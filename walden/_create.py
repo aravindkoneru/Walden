@@ -4,7 +4,7 @@ from typing import List
 
 from ._data_classes import JournalConfiguration, WaldenConfiguration
 from ._errors import WaldenException
-from ._utils import print_success
+from ._utils import print_success, sanitize_journal_name
 
 SUCCESS = 0
 
@@ -46,12 +46,6 @@ def _create_page_templates(path: Path, journal_name: str):
     ]
 
 
-def _sanitize_name(journal_name: str) -> str:
-    """Sanitize journal name to make it an appropriate directory name"""
-
-    return journal_name.lower().replace(" ", "_")
-
-
 def create_journal(journal_name: List[str], config: WaldenConfiguration) -> int:
     """Responsbile for creating a new journal"""
 
@@ -62,7 +56,7 @@ def create_journal(journal_name: List[str], config: WaldenConfiguration) -> int:
         raise WaldenException(f"Journal named {journal_name} already exists!")
 
     # ensure no path conflict due to naming
-    journal_path = config.default_journal_path / _sanitize_name(journal_name)
+    journal_path = config.default_journal_path / sanitize_journal_name(journal_name)
     if journal_path.exists():
         raise WaldenException(
             f"Tried to create new journal at {journal_path}, but path already exists!"

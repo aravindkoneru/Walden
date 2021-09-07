@@ -10,6 +10,8 @@ SUCCESS = 0
 def delete_journal(journal_name: str, config: WaldenConfiguration) -> int:
     journal_name = journal_name[0]
 
+    # TODO: add a confirmation before deleting?
+
     # verify that journal exists
     journal_info = config.journals.get(journal_name)
 
