@@ -8,6 +8,7 @@ import toml
 
 from ._create import create_journal
 from ._data_classes import JournalConfiguration, WaldenConfiguration
+from ._delete import delete_journal
 from ._errors import WaldenException
 from ._list import list_journals
 from ._utils import print_error
