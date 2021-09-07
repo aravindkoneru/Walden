@@ -22,5 +22,5 @@ setuptools.setup(
     entry_points = {
         "console_scripts": ["walden=walden.__main__:main"]
     },
-    python_requires=">=3.5"
+    python_requires=">=3.8"
 )
