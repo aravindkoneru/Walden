@@ -66,17 +66,7 @@ def build_journal(journal_name: str, config: WaldenConfiguration) -> int:
 
     journal_name = journal_name[0]
 
-    # verify journal exists and is accessible
-    journal_info = config.journals.get(journal_name)
-
-    if not journal_info:
-        raise WaldenException(f"'{journal_name}' not found!")
-
-    journal_path = journal_info.path
-    if not journal_path.exists():
-        raise WaldenException(
-            f"Expected to find '{journal_name}' at {journal_path}, but found nothing!"
-        )
+    journal_path = config.journals[journal_name].path
 
     entries_path = journal_path / "entries"
     if not entries_path.exists():

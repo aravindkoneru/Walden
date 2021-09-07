@@ -11,18 +11,11 @@ def delete_journal(journal_name: str, config: WaldenConfiguration) -> int:
     journal_name = journal_name[0]
 
     # TODO: add a confirmation before deleting?
-
-    # verify that journal exists
-    journal_info = config.journals.get(journal_name)
-
-    if not journal_info:
-        raise WaldenException(
-            f"No journal named '{journal_name}' found in configuration!"
-        )
+    # TODO: consider case where deletion succeeds but config save fails
 
     # everything in here is a transaction
     try:
-        journal_path = journal_info.path
+        journal_path = config.journals[journal_name].path
 
         if journal_path.exists():
             shutil.rmtree(journal_path)

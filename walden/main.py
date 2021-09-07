@@ -30,10 +30,11 @@ FLAGS = [
 ]
 
 ARGUMENT_MAPPING = {
+    "build": build_journal,
     "create": create_journal,
     "delete": delete_journal,
     "today": edit_journal,
-    "build": build_journal,
+    #"view": view_journal
 }
 FLAG_MAPPING = {"list": list_journals}
 
@@ -147,6 +148,23 @@ def main():
         # check if command is a flag
         if value == True:
             sys.exit(FLAG_MAPPING[cmd](config))
+
+        if cmd in ["build", "delete", "view", "today"]:
+            # verify journal exists and is accessible
+            journal_name = value[0]
+            journal_info = config.journals.get(journal_name)
+
+            if not journal_info:
+                raise WaldenException(
+                    f"'{journal_name}' not found! Please create a journal before attempting to access it."
+                )
+
+            journal_path = journal_info.path
+
+            if not journal_path.exists():
+                raise WaldenException(
+                    f"Expected to find '{journal_name}' at {journal_path}, but found nothing!"
+                )
 
         sys.exit(ARGUMENT_MAPPING[cmd](value, config))
 
