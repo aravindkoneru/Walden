@@ -1,24 +1,33 @@
 import argparse
 import os
 import sys
+from collections import namedtuple
 from pathlib import Path
 
 import toml
 
 from ._create import create_journal
-from ._data_classes import WaldenConfiguration, JournalConfiguration
+from ._data_classes import JournalConfiguration, WaldenConfiguration
 from ._errors import WaldenException
+from ._list import list_journals
 from ._utils import print_error
 
+# for initializing commands that need journal name
 ARGUMENTS = [
     ("create", "create a new journal"),
     ("today", "edit today's entry"),
     ("delete", "delete specified journal"),
-    ("list", "list all journals managed by walden"),
     ("build", "compile the specified journal"),
     ("view", "open the specified journal (OS dependent)"),
 ]
-CMD_MAPPING = {"create": create_journal}
+
+# for initializing flags
+FLAGS = [
+    ("list", "list all journals managed by walden"),
+]
+
+ARGUMENT_MAPPING = {"create": create_journal, "delete": delete_journal}
+FLAG_MAPPING = {"list": list_journals}
 
 
 def _parse_args() -> argparse.Namespace:
@@ -26,6 +35,7 @@ def _parse_args() -> argparse.Namespace:
 
     parser = argparse.ArgumentParser(description="edit and manage your walden journals")
     ex_group = parser.add_mutually_exclusive_group(required=True)
+
     for cmd, help_txt in ARGUMENTS:
         ex_group.add_argument(
             f"-{cmd[0]}",
@@ -34,6 +44,14 @@ def _parse_args() -> argparse.Namespace:
             nargs=1,
             help=help_txt,
             metavar="JOURNAL_NAME",
+        )
+
+    for flag, help_txt in FLAGS:
+        ex_group.add_argument(
+            f"-{flag[0]}",
+            f"--{flag}",
+            action="store_true",
+            help=help_txt,
         )
 
     if len(sys.argv) == 1:
@@ -114,12 +132,17 @@ def main():
         args = _parse_args()
         config = _get_config()
 
-        for cmd, journal_name in vars(args).items():
-            if journal_name != None:
-                sys.exit(CMD_MAPPING[cmd](journal_name, config))
+        cmd, value = next(
+            (cmd, value) for cmd, value in vars(args).items() if value != None
+        )
+
+        # check if command is a flag
+        if value == True:
+            sys.exit(FLAG_MAPPING[cmd](config))
+
+        sys.exit(ARGUMENT_MAPPING[cmd](value, config))
 
     except WaldenException as we:
-        # TODO: better error handling
         print_error(we)
         sys.exit(1)
 

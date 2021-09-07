@@ -1,11 +1,10 @@
-from typing import List
-from pathlib import Path
-
 import shutil
+from pathlib import Path
+from typing import List
 
-from ._utils import print_success
-from ._data_classes import WaldenConfiguration, JournalConfiguration
+from ._data_classes import JournalConfiguration, WaldenConfiguration
 from ._errors import WaldenException
+from ._utils import print_success
 
 SUCCESS = 0
 
