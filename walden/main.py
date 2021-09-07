@@ -6,7 +6,9 @@ from pathlib import Path
 import toml
 
 from ._create import create_journal
-from ._data_classes import WaldenConfiguration
+from ._data_classes import WaldenConfiguration, JournalConfiguration
+from ._errors import WaldenException
+from ._utils import print_error
 
 ARGUMENTS = [
     ("create", "create a new journal"),
@@ -54,13 +56,23 @@ def _create_walden_config(config_file_path: Path):
     config_file_path.write_text(toml.dumps(config))
 
 
+def _validate_config(config: dict):
+    """ensure that required fields are in config"""
+
+    if not config.get("walden", {}).get("config_path"):
+        raise WaldenException("Missing 'config_path' in walden configuration")
+
+    if not config["walden"].get("default_journal_path"):
+        raise WaldenException("Missing 'default_journal_path' in walden configuration")
+
+
 def _parse_walden_config(config: dict) -> WaldenConfiguration:
     """Parse raw configuration into a dataclass for easier access"""
 
     config_path, default_journal_path = Path(config["config_path"]), Path(
         config["default_journal_path"]
     )
-    journal_info = []
+    journal_info = {}
     for journal_name, info in config.items():
         if journal_name == "config_path" or journal_name == "default_journal_path":
             continue
@@ -78,6 +90,7 @@ def _parse_walden_config(config: dict) -> WaldenConfiguration:
 
 def _get_config() -> WaldenConfiguration:
     """Create configuration if it doesn't exist and return an object representing the config"""
+
     config_dir = Path.home() / ".config" / "walden"
     config_dir.mkdir(parents=True, exist_ok=True)
 
@@ -89,13 +102,14 @@ def _get_config() -> WaldenConfiguration:
 
     config = toml.load(config_file_path)
 
-    # TODO: some validation here
+    _validate_config(config)
 
     return _parse_walden_config(config["walden"])
 
 
 def main():
     """Parse arguments, fetch config, and route command to appropriate function"""
+
     try:
         args = _parse_args()
         config = _get_config()
@@ -106,7 +120,7 @@ def main():
 
     except WaldenException as we:
         # TODO: better error handling
-        raise we
+        print_error(we)
         sys.exit(1)
 
     except Exception as e:
