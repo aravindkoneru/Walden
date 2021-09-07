@@ -6,6 +6,7 @@ from pathlib import Path
 
 import toml
 
+from ._build import build_journal
 from ._create import create_journal
 from ._data_classes import JournalConfiguration, WaldenConfiguration
 from ._delete import delete_journal
@@ -32,6 +33,7 @@ ARGUMENT_MAPPING = {
     "create": create_journal,
     "delete": delete_journal,
     "today": edit_journal,
+    "build": build_journal,
 }
 FLAG_MAPPING = {"list": list_journals}
 
