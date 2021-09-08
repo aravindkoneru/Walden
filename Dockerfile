@@ -1,13 +1,13 @@
 FROM python:3.9-slim as develop
 
-RUN apt-get update && \
-    apt-get install -y vim texlive-latex-recommended
+ENV EDITOR="vim"
 
 RUN python3.9 -m pip install --upgrade pip && \
     python3.9 -m pip install poetry \
     || exit 1
 
-ENV EDITOR="vim"
+RUN apt-get update && \
+    apt-get install -y vim texlive-latex-recommended make
 
 COPY . /walden
 WORKDIR /walden

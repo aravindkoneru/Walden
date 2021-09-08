@@ -1,11 +1,15 @@
 [tool.poetry]
 name = "walden"
-version = "0.0.73"
+version = "0.0.78"
 description = "A .tex journal system"
 authors = ["Aravind Koneru <aravind.b.koneru@gmail.com>"]
 license = "MIT"
 readme = "README.md"
+homepage = "https://github.com/aravindkoneru/walden"
 repository = "https://github.com/aravindkoneru/walden"
+include = [
+    "LICENSE"
+]
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
