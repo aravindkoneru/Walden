@@ -100,12 +100,12 @@ def _parse_walden_config(config: dict) -> WaldenConfiguration:
         config["default_journal_path"]
     )
     journal_info = {}
-    for journal_name, info in config.items():
+    for journal_name, journal_path in config.items():
         if journal_name == "config_path" or journal_name == "default_journal_path":
             continue
 
         journal_info[journal_name] = JournalConfiguration(
-            name=journal_name, path=Path(info["path"])
+            name=journal_name, path=Path(journal_path)
         )
 
     return WaldenConfiguration(
