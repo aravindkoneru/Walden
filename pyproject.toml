@@ -1,11 +1,15 @@
 [tool.poetry]
 name = "walden"
-version = "0.0.73"
+version = "0.0.78"
 description = "A .tex journal system"
 authors = ["Aravind Koneru <aravind.b.koneru@gmail.com>"]
 license = "MIT"
 readme = "README.md"
+homepage = "https://github.com/aravindkoneru/walden"
 repository = "https://github.com/aravindkoneru/walden"
+include = [
+    "LICENSE"
+]
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
@@ -13,15 +17,18 @@ classifiers = [
 ]
 
 [tool.poetry.scripts]
-walden = "walden.__main__:main"
+"walden" = "walden.main:main"
 
 [tool.poetry.dependencies]
-python = ">=3.8"
+python = "^3.8"
+toml = "^0.10.2"
+colorama = "^0.4.4"
 
 
 [tool.poetry.dev-dependencies]
-black = "^20.8b1"
+black = "*"
 pytest = "^6.1.2"
+isort = "^5.9.3"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
