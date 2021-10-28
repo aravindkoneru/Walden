@@ -12,19 +12,17 @@ Available via pip: `pip install walden`
 Walden will create a `journals/` folder in your home directory. This is where all your output and
 .tex files will be stored. The commands are:
 
-| Flag                  | Description                    |
-|-----------------------|--------------------------------|
-| walden -h                    | show help dialog               |
-| walden delete <journal name> | Delete an existing journal     |
-| walden today <journal name>  | New entry in specified journal |
-| walden list                  | List names of journals         |
-| walden build <journal name>  | Compile journal as .pdf        |
-| walden view <journal name>   | View journal as .pdf           |
+| Flag                            | Description                         |
+|---------------------------------|-------------------------------------|
+| walden -h                       | show help dialog                    |
+| walden -delete <journal name>   | Delete an existing journal          |
+| walden -today  <journal name>   | New entry in specified journal      |
+| walden -list                    | List names of journals              |
+| walden -build  <journal name>   | Compile journal as .pdf             |
+| walden -view   <journal name>   | View journal as .pdf (OS dependent) |
 
 
 # TODO:
--  better support for journal names with spaces (replace " " with _ for path)
--  better cli support using click or argparse
 -  change path where journals are stored
 -  allow journal import/export
 -  plug-in system for things like weather/question of the day

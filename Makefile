@@ -1,4 +1,4 @@
-PYTHON = python3
+PYTHON = python3.8
 
 .PHONY: test
 test:
@@ -6,16 +6,17 @@ test:
 
 .PHONY: build
 build: clean
-	python setup.py sdist bdist_wheel
+	poetry build
 
 .PHONY: publish 
 publish: build
-	twine upload dist/*
+	poetry publish
 
 .PHONY: publish-dev
 publish-dev: build
-	twine upload --repository testpypi dist/*
+	poetry config repositories.testpypi https://test.pypi.org/legacy/
+	poetry publish -r testpypi
 
 .PHONY: clean 
 clean:
-	rm -rf resources/ dist/ build/ walden.egg-info/
+	rm -rf dist/
