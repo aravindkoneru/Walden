@@ -28,7 +28,6 @@ def test_lookup_journal_failure(tmp_path):
         journal = walden_api.get_journal_info(j_name)
 
 
-@pytest.mark.bad
 def test_get_journal_entries(tmp_path):
     j_name = "test"
     j_path = tmp_path / j_name
