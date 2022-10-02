@@ -90,7 +90,6 @@ def main():
             # verify journal exists and is accessible
             journal_name = value[0]
             journal_info = config.get_journal(journal_name)
-            print(config)
 
             if not journal_info:
                 raise WaldenException(
