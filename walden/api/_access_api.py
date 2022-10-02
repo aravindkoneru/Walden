@@ -4,6 +4,7 @@ from walden._errors import WaldenException
 from walden._data_classes import WaldenConfiguration, JournalConfiguration
 
 from walden._config import get_config
+from walden._edit import generate_entry_path
 
 
 def _normalize_digits(x: int) -> str:
@@ -51,12 +52,11 @@ class WaldenAPI:
     def get_entry(
         self, journal_config: JournalConfiguration, year: int, month: int, day: int
     ) -> str:
-        entry_path = (
-            journal_config.path
-            / "entries"
-            / f"{year}"
-            / _normalize_digits(month)
-            / f"{_normalize_digits(day)}.tex"
+        entry_path = generate_entry_path(
+            journal_config.path,
+            f"{year}",
+            _normalize_digits(month),
+            _normalize_digits(day),
         )
 
         if not entry_path.exists():

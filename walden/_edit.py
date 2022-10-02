@@ -38,7 +38,7 @@ def edit_journal(journal_name: List[str], config: WaldenConfiguration) -> int:
     # check to see if new entry needs to be made
     today = date.today()
     entry_path = generate_entry_path(
-        journal_path, str(today.year), today.strftime("%m"), today.strftime("%d")
+        journal_path, f"{today.year}", today.strftime("%m"), today.strftime("%d")
     )
 
     if not entry_path.exists():
