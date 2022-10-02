@@ -28,7 +28,7 @@ def test_lookup_journal_failure(tmp_path):
         journal = walden_api.get_journal_info(j_name)
 
 
-def test_get_journal_entries(tmp_path):
+def test_get_journal_hierarchy(tmp_path):
     j_name = "test"
     j_path = tmp_path / j_name
     j_cfg = JournalConfiguration(j_name, j_path)
@@ -41,14 +41,32 @@ def test_get_journal_entries(tmp_path):
     months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
     entries = [f"{x}.tex" for x in range(10, 15)]
 
-    assert sorted(walden_api.get_journal_entries(j_cfg)) == sorted(years)
-    assert sorted(walden_api.get_journal_entries(j_cfg, year="2021")) == sorted(months)
+    assert sorted(walden_api.get_journal_hierarchy(j_cfg)) == sorted(years)
+    assert sorted(walden_api.get_journal_hierarchy(j_cfg, year=2021)) == sorted(months)
     assert sorted(
-        walden_api.get_journal_entries(j_cfg, year="2021", month="10")
+        walden_api.get_journal_hierarchy(j_cfg, year=2021, month=3)
     ) == sorted(entries)
 
     with pytest.raises(WaldenException):
-        walden_api.get_journal_entries(j_cfg, year="2045")
+        walden_api.get_journal_hierarchy(j_cfg, year=2045)
 
     with pytest.raises(WaldenException):
-        walden_api.get_journal_entries(j_cfg, year="2021", month="15")
+        walden_api.get_journal_hierarchy(j_cfg, year=2021, month=15)
+
+
+def test_get_entry(tmp_path):
+    j_name = "test"
+    j_path = tmp_path / j_name
+    j_cfg = JournalConfiguration(j_name, j_path)
+
+    create_journal_fs(j_path)
+
+    walden_api = WaldenAPI(config=good_config(tmp_path, {j_name: j_path}))
+
+    assert (
+        walden_api.get_entry(j_cfg, year=2021, month=2, day=11)
+        == "2021/02/11.tex entry"
+    )
+
+    with pytest.raises(WaldenException):
+        walden_api.get_entry(j_cfg, year=2021, month=2, day=100)
