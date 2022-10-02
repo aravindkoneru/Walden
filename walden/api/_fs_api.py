@@ -12,7 +12,7 @@ def _normalize_digits(x: int) -> str:
     return f"0{x}" if x < 10 else f"{x}"
 
 
-class WaldenAPI:
+class WaldenFSAPI:
     def __init__(self, config: WaldenConfiguration):
         self._config = config
 
@@ -52,6 +52,7 @@ class WaldenAPI:
     def get_entry(
         self, journal_config: JournalConfiguration, year: int, month: int, day: int
     ) -> str:
+        """Returns the text of a specific entry"""
         entry_path = generate_entry_path(
             journal_config.path,
             f"{year}",

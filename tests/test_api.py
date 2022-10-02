@@ -3,7 +3,7 @@ from unittest.mock import patch
 
 from .support import good_config, create_journal_fs
 
-from walden.api._access_api import WaldenAPI
+from walden.api._fs_api import WaldenFSAPI
 from walden._errors import WaldenException
 from walden._data_classes import JournalConfiguration
 
@@ -13,7 +13,7 @@ API_PATH = "walden.api._access_api"
 def test_lookup_journal(tmp_path):
     j_name = "random_name"
     j_path = "path"
-    walden_api = WaldenAPI(config=good_config(tmp_path, {j_name: j_path}))
+    walden_api = WaldenFSAPI(config=good_config(tmp_path, {j_name: j_path}))
 
     journal = walden_api.get_journal_info(j_name)
     assert journal.name == j_name
@@ -22,7 +22,7 @@ def test_lookup_journal(tmp_path):
 def test_lookup_journal_failure(tmp_path):
     j_name = "random_name"
     j_path = "path"
-    walden_api = WaldenAPI(config=good_config(tmp_path, {"other_journal": j_path}))
+    walden_api = WaldenFSAPI(config=good_config(tmp_path, {"other_journal": j_path}))
 
     with pytest.raises(WaldenException):
         journal = walden_api.get_journal_info(j_name)
@@ -35,7 +35,7 @@ def test_get_journal_hierarchy(tmp_path):
 
     create_journal_fs(j_path)
 
-    walden_api = WaldenAPI(config=good_config(tmp_path, {j_name: j_path}))
+    walden_api = WaldenFSAPI(config=good_config(tmp_path, {j_name: j_path}))
 
     years = [f"202{x}" for x in range(0, 9)]
     months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
@@ -61,7 +61,7 @@ def test_get_entry(tmp_path):
 
     create_journal_fs(j_path)
 
-    walden_api = WaldenAPI(config=good_config(tmp_path, {j_name: j_path}))
+    walden_api = WaldenFSAPI(config=good_config(tmp_path, {j_name: j_path}))
 
     assert (
         walden_api.get_entry(j_cfg, year=2021, month=2, day=11)
