@@ -63,6 +63,4 @@ class WaldenConfiguration:
                 f"Tried to create new journal at {journal_path}, but path already exists!"
             )
 
-        self.journals[journal_name] = JournalConfiguration(
-            journal_name, journal_path
-        )
+        self.journals[journal_name] = JournalConfiguration(journal_name, journal_path)

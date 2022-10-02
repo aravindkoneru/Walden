@@ -12,7 +12,7 @@ def _create_walden_config(config_file_path: Path):
         "walden": {
             "config_path": str(config_file_path),
             "default_journal_path": str(Path.home() / "journals"),
-            "journals": {}
+            "journals": {},
         }
     }
 
@@ -73,4 +73,3 @@ def _get_config() -> WaldenConfiguration:
 
 def get_config() -> WaldenConfiguration:
     return _get_config()
-
