@@ -12,7 +12,7 @@ def _create_walden_config(config_file_path: Path):
         "walden": {
             "config_path": str(config_file_path),
             "default_journal_path": str(Path.home() / "journals"),
-            "journals": dict()
+            "journals": {}
         }
     }
 
@@ -23,11 +23,17 @@ def _create_walden_config(config_file_path: Path):
 def _validate_config(config: dict):
     """ensure that required fields are in config"""
 
-    if not config.get("walden", {}).get("config_path"):
+    if not "walden" in config:
+        raise WaldenException("Unkown walden configuration file format")
+
+    if not config["walden"].get("config_path"):
         raise WaldenException("Missing 'config_path' in walden configuration")
 
     if not config["walden"].get("default_journal_path"):
         raise WaldenException("Missing 'default_journal_path' in walden configuration")
+
+    if "journals" not in config["walden"]:
+        raise WaldenException("Missing 'journals' in walden configuration")
 
 
 def _parse_walden_config(config: dict) -> WaldenConfiguration:
