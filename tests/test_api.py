@@ -8,19 +8,20 @@ from walden._errors import WaldenException
 
 API_PATH = "walden.api._access_api"
 
-def test_lookup_journal(tmpdir):
+
+def test_lookup_journal(tmp_path):
     j_name = "random_name"
     j_path = "path"
-    walden_api = WaldenAPI(config=good_config(tmpdir, {j_name: j_path}))
+    walden_api = WaldenAPI(config=good_config(tmp_path, {j_name: j_path}))
 
     journal = walden_api.get_journal_info(j_name)
     assert journal.name == j_name
 
-def test_lookup_journal_failure(tmpdir):
+
+def test_lookup_journal_failure(tmp_path):
     j_name = "random_name"
     j_path = "path"
-    walden_api = WaldenAPI(config=good_config(tmpdir, {"other_journal": j_path}))
+    walden_api = WaldenAPI(config=good_config(tmp_path, {"other_journal": j_path}))
 
     with pytest.raises(WaldenException):
         journal = walden_api.get_journal_info(j_name)
-

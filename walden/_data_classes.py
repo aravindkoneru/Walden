@@ -4,6 +4,8 @@ from typing import Dict, List, Optional
 
 import toml
 
+from ._errors import WaldenException
+
 
 @dataclass
 class JournalConfiguration:
@@ -17,7 +19,10 @@ class JournalConfiguration:
 
     def to_dict(self) -> dict:
         """Convert class to dict representation for saving to disk as toml"""
-        return {"name": self.name, "path": str(self.path)}
+        return {"path": str(self.path)}
+
+    def __eq__(self, other):
+        return other.name == self.name and other.path == self.path
 
 
 @dataclass
@@ -47,6 +52,17 @@ class WaldenConfiguration:
 
     def add_journal(self, journal_name: str, journal_path: Path):
         """WARNING: you still need to call save() to write config changes to disk"""
+
+        # check that journal with same name doesn't already exist
+        if journal_name in self.journals:
+            raise WaldenException(f"Journal named {journal_name} already exists!")
+
+        # ensure no path conflict due to naming
+        if journal_path.exists():
+            raise WaldenException(
+                f"Tried to create new journal at {journal_path}, but path already exists!"
+            )
+
         self.journals[journal_name] = JournalConfiguration(
             journal_name, journal_path
         )

@@ -38,8 +38,8 @@ def _parse_walden_config(config: dict) -> WaldenConfiguration:
     )
 
     journal_info = {
-        j_name: JournalConfiguration(j_name, Path(j_info["path"]))
-        for j_name, j_info in config["journals"].items()
+        j_name: JournalConfiguration(j_name, Path(j_path))
+        for j_name, j_path in config["journals"].items()
     }
 
     return WaldenConfiguration(
@@ -66,7 +66,5 @@ def _get_config() -> WaldenConfiguration:
 
 
 def get_config() -> WaldenConfiguration:
-    return CONFIG
+    return _get_config()
 
-
-CONFIG: WaldenConfiguration = _get_config()
