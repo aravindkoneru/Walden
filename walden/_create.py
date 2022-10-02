@@ -71,9 +71,7 @@ def create_journal(journal_name: List[str], config: WaldenConfiguration) -> int:
         _create_page_templates(journal_path, journal_name)
 
         # create new SchemaConfiguration and save walden config
-        config.journals[journal_name] = JournalConfiguration(
-            name=journal_name, path=journal_path
-        )
+        config.add_journal(journal_name, journal_path)
         config.save()
 
         print_success(f"Created journal named '{journal_name}' at {journal_path}!")

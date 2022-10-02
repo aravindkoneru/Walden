@@ -12,9 +12,11 @@ def _create_walden_config(config_file_path: Path):
         "walden": {
             "config_path": str(config_file_path),
             "default_journal_path": str(Path.home() / "journals"),
+            "journals": dict()
         }
     }
 
+    config_file_path.parents[0].mkdir(parents=True, exist_ok=False)
     config_file_path.write_text(toml.dumps(config))
 
 
@@ -34,14 +36,11 @@ def _parse_walden_config(config: dict) -> WaldenConfiguration:
     config_path, default_journal_path = Path(config["config_path"]), Path(
         config["default_journal_path"]
     )
-    journal_info = {}
-    for journal_name, journal_path in config.items():
-        if journal_name == "config_path" or journal_name == "default_journal_path":
-            continue
 
-        journal_info[journal_name] = JournalConfiguration(
-            name=journal_name, path=Path(journal_path)
-        )
+    journal_info = {
+        j_name: JournalConfiguration(j_name, Path(j_info["path"]))
+        for j_name, j_info in config["journals"].items()
+    }
 
     return WaldenConfiguration(
         config_path=config_path,
@@ -53,11 +52,8 @@ def _parse_walden_config(config: dict) -> WaldenConfiguration:
 def _get_config() -> WaldenConfiguration:
     """Create configuration if it doesn't exist and return an object representing the config"""
 
-    config_dir = Path.home() / ".config" / "walden"
-    config_dir.mkdir(parents=True, exist_ok=True)
-
     # config file is stored as a toml
-    config_file_path = config_dir / "walden.conf"
+    config_file_path = Path.home() / ".config" / "walden" / "walden.conf"
 
     if not config_file_path.exists():
         _create_walden_config(config_file_path)

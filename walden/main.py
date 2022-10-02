@@ -89,16 +89,15 @@ def main():
         if cmd in ["build", "delete", "view", "today"]:
             # verify journal exists and is accessible
             journal_name = value[0]
-            journal_info = config.journals.get(journal_name)
+            journal_info = config.get_journal(journal_name)
+            print(config)
 
             if not journal_info:
                 raise WaldenException(
                     f"'{journal_name}' not found! Please create a journal before attempting to access it."
                 )
 
-            journal_path = journal_info.path
-
-            if not journal_path.exists():
+            if not journal_info.path.exists():
                 raise WaldenException(
                     f"Expected to find '{journal_name}' at {journal_path}, but found nothing!"
                 )

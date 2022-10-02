@@ -17,7 +17,7 @@ class JournalConfiguration:
 
     def to_dict(self) -> dict:
         """Convert class to dict representation for saving to disk as toml"""
-        return {"path": str(self.path)}
+        return {"name": self.name, "path": str(self.path)}
 
 
 @dataclass
@@ -31,7 +31,8 @@ class WaldenConfiguration:
     def save(self):
         """Write current configuration to disk"""
 
-        config = {
+        config = {}
+        config["journals"] = {
             journal_name: journal_info.to_dict()
             for journal_name, journal_info in self.journals.items()
         }
@@ -43,3 +44,9 @@ class WaldenConfiguration:
 
     def get_journal(self, journal_name: str) -> Optional[JournalConfiguration]:
         return self.journals.get(journal_name)
+
+    def add_journal(self, journal_name: str, journal_path: Path):
+        """WARNING: you still need to call save() to write config changes to disk"""
+        self.journals[journal_name] = JournalConfiguration(
+            journal_name, journal_path
+        )
