@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 import toml
 
@@ -40,3 +40,6 @@ class WaldenConfiguration:
         config["default_journal_path"] = str(self.default_journal_path)
 
         self.config_path.write_text(toml.dumps({"walden": config}))
+
+    def get_journal(self, journal_name: str) -> Optional[JournalConfiguration]:
+        return self.journals.get(journal_name)

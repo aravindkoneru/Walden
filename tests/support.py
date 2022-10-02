@@ -12,6 +12,5 @@ def good_config(base_path: Path, journal_info: dict = {}) -> WaldenConfiguration
 
     for name, path in journal_info.items():
         config[name] = config["default_journal_path"] / path
-        print(config[name])
 
     return _parse_walden_config(config)
