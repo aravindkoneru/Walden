@@ -50,30 +50,20 @@ def create_journal(journal_name: List[str], config: WaldenConfiguration) -> int:
     """Responsbile for creating a new journal"""
 
     journal_name = journal_name[0]
-
-    # check that journal with same name doesn't already exist
-    if journal_name in config.journals:
-        raise WaldenException(f"Journal named {journal_name} already exists!")
-
-    # ensure no path conflict due to naming
     journal_path = config.default_journal_path / sanitize_journal_name(journal_name)
-    if journal_path.exists():
-        raise WaldenException(
-            f"Tried to create new journal at {journal_path}, but path already exists!"
-        )
 
     # everything inside here is a transaction
     try:
+        # update WaldenConfiguration
+        config.add_journal(journal_name, journal_path)
+
         # create path to journal
         journal_path.mkdir(parents=True)
 
         # create aux files
         _create_page_templates(journal_path, journal_name)
 
-        # create new SchemaConfiguration and save walden config
-        config.journals[journal_name] = JournalConfiguration(
-            name=journal_name, path=journal_path
-        )
+        # save new config to disk
         config.save()
 
         print_success(f"Created journal named '{journal_name}' at {journal_path}!")

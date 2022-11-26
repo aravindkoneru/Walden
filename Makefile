@@ -1,8 +1,8 @@
-PYTHON = python3.8
+PYTHON = /usr/local/bin/python
 
 .PHONY: test
 test:
-	${PYTHON} -m pytest tests/
+	${PYTHON} -m pytest --cov-report term-missing --cov=walden tests/
 
 .PHONY: build
 build: clean
