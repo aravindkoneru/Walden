@@ -1,4 +1,6 @@
 import os
+from typing import List
+from pathlib import Path
 from datetime import date
 from subprocess import call
 
@@ -23,20 +25,20 @@ def _get_new_entry_header() -> str:
     return "\n".join(entry)
 
 
-def edit_journal(journal_name: str, config: WaldenConfiguration) -> int:
+def generate_entry_path(journal_path: Path, year: str, month: str, day: str) -> Path:
+    return journal_path / "entries" / year / month / f"{day}.tex"
+
+
+def edit_journal(journal_name: List[str], config: WaldenConfiguration) -> int:
     """Create entry for today if it doesn't exist and open it in $EDITOR"""
 
     journal_name = journal_name[0]
-    journal_path = config.journals[journal_name].path
+    journal_path = config.get_journal(journal_name).path
 
     # check to see if new entry needs to be made
     today = date.today()
-    entry_path = (
-        journal_path
-        / "entries"
-        / str(today.year)
-        / str(today.strftime("%m"))
-        / f"{today.strftime('%d')}.tex"
+    entry_path = generate_entry_path(
+        journal_path, f"{today.year}", today.strftime("%m"), today.strftime("%d")
     )
 
     if not entry_path.exists():

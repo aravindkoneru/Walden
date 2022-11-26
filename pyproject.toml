@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "walden"
-version = "0.0.78"
+version = "0.0.8"
 description = "A .tex journal system"
 authors = ["Aravind Koneru <aravind.b.koneru@gmail.com>"]
 license = "MIT"
@@ -29,6 +29,9 @@ colorama = "^0.4.4"
 black = "*"
 pytest = "^6.1.2"
 isort = "^5.9.3"
+
+[tool.poetry.group.dev.dependencies]
+pytest-cov = "^4.0.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
