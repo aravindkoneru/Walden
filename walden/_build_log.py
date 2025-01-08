@@ -43,6 +43,7 @@ def _initialize_header():
     \usepackage[english]{babel}
     \usepackage[utf8]{inputenc}
     \usepackage{fancyhdr}
+    \usepackage{parskip}
 
     \pagestyle{fancy}
     \fancyhf{}
