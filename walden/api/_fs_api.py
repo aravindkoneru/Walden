@@ -1,10 +1,9 @@
-from typing import Optional, List
-
-from walden._errors import WaldenException
-from walden._data_classes import WaldenConfiguration, JournalConfiguration
+from typing import List, Optional
 
 from walden._config import get_config
+from walden._data_classes import JournalConfiguration, WaldenConfiguration
 from walden._edit import generate_entry_path
+from walden._errors import WaldenException
 
 
 def _normalize_digits(x: int) -> str:

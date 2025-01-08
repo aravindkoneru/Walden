@@ -1,8 +1,9 @@
 from pathlib import Path
+
 import toml
 
-from ._errors import WaldenException
 from ._data_classes import JournalConfiguration, WaldenConfiguration
+from ._errors import WaldenException
 
 
 def _create_walden_config(config_file_path: Path):
@@ -39,9 +40,8 @@ def _validate_config(config: dict):
 def _parse_walden_config(config: dict) -> WaldenConfiguration:
     """Parse raw configuration into a dataclass for easier access"""
 
-    config_path, default_journal_path = Path(config["config_path"]), Path(
-        config["default_journal_path"]
-    )
+    config_path Path(config["config_path"])
+    default_journal_path = Path(config["default_journal_path"])
 
     journal_info = {
         j_name: JournalConfiguration(j_name, Path(j_path))

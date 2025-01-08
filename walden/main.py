@@ -7,6 +7,7 @@ from pathlib import Path
 import toml
 
 from ._build import build_journal
+from ._config import get_config
 from ._create import create_journal
 from ._data_classes import JournalConfiguration, WaldenConfiguration
 from ._delete import delete_journal
@@ -14,28 +15,27 @@ from ._edit import edit_journal
 from ._errors import WaldenException
 from ._list import list_journals
 from ._utils import print_error
-from ._config import get_config
 
 # for initializing commands that need journal name
-ARGUMENTS = [
-    ("create", "create a new journal"),
-    ("today", "edit today's entry"),
-    ("delete", "delete specified journal"),
-    ("build", "compile the specified journal"),
-    ("view", "open the specified journal (OS dependent)"),
-]
+ARGUMENTS = {
+    "create": "create a new journal",
+    "today": "edit today's entry",
+    "delete": "delete specified journal",
+    "build": "compile the specified journal",
+    "view": "open the specified journal (OS dependent)",
+}
 
 # for initializing flags
-FLAGS = [
-    ("list", "list all journals managed by walden"),
-]
+FLAGS = {
+    "list": "list all journals managed by walden"
+}
 
 ARGUMENT_MAPPING = {
     "build": build_journal,
     "create": create_journal,
     "delete": delete_journal,
     "today": edit_journal,
-    # "view": view_journal
+    #"view": view_journal
 }
 FLAG_MAPPING = {"list": list_journals}
 
@@ -46,7 +46,7 @@ def _parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="edit and manage your walden journals")
     ex_group = parser.add_mutually_exclusive_group(required=True)
 
-    for cmd, help_txt in ARGUMENTS:
+    for cmd, help_txt in ARGUMENTS.items():
         ex_group.add_argument(
             f"-{cmd[0]}",
             f"--{cmd}",
@@ -56,7 +56,7 @@ def _parse_args() -> argparse.Namespace:
             metavar="JOURNAL_NAME",
         )
 
-    for flag, help_txt in FLAGS:
+    for flag, help_txt in FLAGS.items():
         ex_group.add_argument(
             f"-{flag[0]}",
             f"--{flag}",
@@ -64,8 +64,9 @@ def _parse_args() -> argparse.Namespace:
             help=help_txt,
         )
 
+    # no arguments given
     if len(sys.argv) == 1:
-        parser.print_help(sys.stderr)
+        parser.print_help(sys.stdout)
         sys.exit(1)
 
     return parser.parse_args()

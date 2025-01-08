@@ -1,8 +1,8 @@
 import os
-from typing import List
-from pathlib import Path
 from datetime import date
+from pathlib import Path
 from subprocess import call
+from typing import List
 
 from ._data_classes import WaldenConfiguration
 from ._errors import WaldenException

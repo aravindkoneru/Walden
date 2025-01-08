@@ -1,7 +1,7 @@
-from ._fs_api import WaldenFSAPI
-
 from walden._config import get_config
-from walden._data_classes import WaldenConfiguration, JournalConfiguration
+from walden._data_classes import JournalConfiguration, WaldenConfiguration
+
+from ._fs_api import WaldenFSAPI
 
 walden_fs_api = WaldenFSAPI(get_config())
 

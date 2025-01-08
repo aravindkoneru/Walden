@@ -24,14 +24,12 @@ python = "^3.8"
 toml = "^0.10.2"
 colorama = "^0.4.4"
 
-
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
+pytest-cov = "^4.0.0"
+isort = "^5.13.2"
 black = "*"
 pytest = "^6.1.2"
 isort = "^5.9.3"
-
-[tool.poetry.group.dev.dependencies]
-pytest-cov = "^4.0.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
