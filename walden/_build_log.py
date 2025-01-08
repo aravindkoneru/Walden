@@ -17,6 +17,7 @@ MONTH_NAME = {
     "12": "December",
 }
 
+
 # path: path to root of journal
 def generate_log(journal_path: Path, entries: Dict[str, List[str]]):
     headers = dedent(_initialize_header())
