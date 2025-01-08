@@ -40,7 +40,7 @@ def _validate_config(config: dict):
 def _parse_walden_config(config: dict) -> WaldenConfiguration:
     """Parse raw configuration into a dataclass for easier access"""
 
-    config_path Path(config["config_path"])
+    config_path = Path(config["config_path"])
     default_journal_path = Path(config["default_journal_path"])
 
     journal_info = {

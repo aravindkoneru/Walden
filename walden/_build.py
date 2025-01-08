@@ -7,11 +7,10 @@ from textwrap import dedent
 from typing import Dict, List
 
 from ._build_log import generate_log
+from ._constants import SUCCESS
 from ._data_classes import WaldenConfiguration
 from ._errors import WaldenException
 from ._utils import print_success
-
-SUCCESS = 0
 
 
 def _generate_latex_structure(journal_path: Path):

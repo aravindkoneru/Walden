@@ -20,3 +20,8 @@ publish-dev: build
 .PHONY: clean 
 clean:
 	rm -rf dist/
+
+.PHONY: format
+format:
+	isort walden/
+	black walden/

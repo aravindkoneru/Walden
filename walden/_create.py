@@ -2,11 +2,10 @@ import shutil
 from pathlib import Path
 from typing import List
 
+from ._constants import SUCCESS
 from ._data_classes import JournalConfiguration, WaldenConfiguration
 from ._errors import WaldenException
 from ._utils import print_success, sanitize_journal_name
-
-SUCCESS = 0
 
 
 def _gen_new_aux_page(label: str, is_title: bool) -> str:

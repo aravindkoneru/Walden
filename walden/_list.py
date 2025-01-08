@@ -1,7 +1,6 @@
+from ._constants import SUCCESS
 from ._data_classes import WaldenConfiguration
 from ._utils import print_success
-
-SUCCESS = 0
 
 
 def list_journals(config: WaldenConfiguration) -> int:

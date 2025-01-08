@@ -1,10 +1,9 @@
 import shutil
 
+from ._constants import SUCCESS
 from ._data_classes import WaldenConfiguration
 from ._errors import WaldenException
 from ._utils import print_success
-
-SUCCESS = 0
 
 
 def delete_journal(journal_name: str, config: WaldenConfiguration) -> int:

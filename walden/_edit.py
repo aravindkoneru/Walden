@@ -4,11 +4,11 @@ from pathlib import Path
 from subprocess import call
 from typing import List
 
+from ._constants import SUCCESS
 from ._data_classes import WaldenConfiguration
 from ._errors import WaldenException
 from ._utils import print_success
 
-SUCCESS = 0
 EDITOR = os.environ.get("EDITOR", "vim")
 
 

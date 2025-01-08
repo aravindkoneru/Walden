@@ -26,16 +26,14 @@ ARGUMENTS = {
 }
 
 # for initializing flags
-FLAGS = {
-    "list": "list all journals managed by walden"
-}
+FLAGS = {"list": "list all journals managed by walden"}
 
 ARGUMENT_MAPPING = {
     "build": build_journal,
     "create": create_journal,
     "delete": delete_journal,
     "today": edit_journal,
-    #"view": view_journal
+    # "view": view_journal
 }
 FLAG_MAPPING = {"list": list_journals}
 
